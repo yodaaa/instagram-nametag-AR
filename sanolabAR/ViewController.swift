@@ -10,9 +10,10 @@ import UIKit
 import SceneKit
 import ARKit
 
-class ViewController: UIViewController, ARSCNViewDelegate {
-
+class ViewController: UIViewController {
+    
     @IBOutlet var sceneView: ARSCNView!
+    let referenceImages = ARReferenceImage.referenceImages(inGroupNamed: "AR Resources", bundle: nil)
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -21,10 +22,10 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         sceneView.delegate = self
         
         // Show statistics such as fps and timing information
-        sceneView.showsStatistics = true
+        //sceneView.showsStatistics = true
         
         // Create a new scene
-        let scene = SCNScene(named: "art.scnassets/ship.scn")!
+        let scene = SCNScene()
         
         // Set the scene to the view
         sceneView.scene = scene
@@ -34,8 +35,8 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         super.viewWillAppear(animated)
         
         // Create a session configuration
-        let configuration = ARWorldTrackingConfiguration()
-
+        let configuration = ARImageTrackingConfiguration()
+        configuration.trackingImages = referenceImages!
         // Run the view's session
         sceneView.session.run(configuration)
     }
@@ -46,17 +47,17 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         // Pause the view's session
         sceneView.session.pause()
     }
-
+    
     // MARK: - ARSCNViewDelegate
     
-/*
-    // Override to create and configure nodes for anchors added to the view's session.
-    func renderer(_ renderer: SCNSceneRenderer, nodeFor anchor: ARAnchor) -> SCNNode? {
-        let node = SCNNode()
+    /*
+     // Override to create and configure nodes for anchors added to the view's session.
+     func renderer(_ renderer: SCNSceneRenderer, nodeFor anchor: ARAnchor) -> SCNNode? {
+     let node = SCNNode()
      
-        return node
-    }
-*/
+     return node
+     }
+     */
     
     func session(_ session: ARSession, didFailWithError error: Error) {
         // Present an error message to the user
@@ -71,5 +72,63 @@ class ViewController: UIViewController, ARSCNViewDelegate {
     func sessionInterruptionEnded(_ session: ARSession) {
         // Reset tracking and/or remove existing anchors if consistent tracking is required
         
+    }
+}
+
+extension ViewController: ARSCNViewDelegate {
+    func renderer(_ renderer: SCNSceneRenderer, nodeFor anchor: ARAnchor) -> SCNNode? {
+        guard let imageAnchor = anchor as? ARImageAnchor else {
+            return nil
+        }
+        
+        //画像(マーカー)ごとに処理を分岐
+        switch imageAnchor.referenceImage.name {
+        case "Dali":
+            let node = SCNNode()
+            let imagePlaneNode = makeImagePlaneNode(imageAnchor: imageAnchor)
+            let labelPlaneNode = makeLabelPlaneNode(imageAnchor: imageAnchor)
+            node.addChildNode(imagePlaneNode)
+            node.addChildNode(labelPlaneNode)
+            var textNode = SCNNode()
+            textNode = makeLabelNode(text: "aaaa")
+            labelPlaneNode.addChildNode(textNode)
+            return node
+        default:
+            return nil
+        }
+    }
+    
+    private func makeLabelNode(text: String) -> SCNNode {
+        let depth: CGFloat = 0.001
+        let font = UIFont(name: "HiraKakuProN-W3", size: 0.5);
+        
+        let textGeometory = SCNText(string: text, extrusionDepth: depth)
+        textGeometory.flatness = 0
+        textGeometory.font = font
+        let textNode = SCNNode(geometry: textGeometory)
+        let (min, max) = (textNode.boundingBox)
+        let x = CGFloat(max.x - min.x)
+        textNode.position = SCNVector3(-(x/2), -1, 0.1)
+        
+        return textNode
+    }
+    
+    private func makeImagePlaneNode(imageAnchor: ARImageAnchor) -> SCNNode {
+        let plane = SCNPlane(width: imageAnchor.referenceImage.physicalSize.width, height: imageAnchor.referenceImage.physicalSize.height)
+        plane.firstMaterial?.diffuse.contents = UIColor.black
+        plane.firstMaterial?.transparency = 0.5
+        let planeNode = SCNNode(geometry: plane)
+        planeNode.eulerAngles.x = -.pi / 2
+        return planeNode
+    }
+    
+    private func makeLabelPlaneNode(imageAnchor: ARImageAnchor) -> SCNNode {
+        let plane = SCNPlane(width: imageAnchor.referenceImage.physicalSize.width, height: imageAnchor.referenceImage.physicalSize.height / 3)
+        plane.firstMaterial?.diffuse.contents = UIColor.black
+        plane.firstMaterial?.transparency = 0.9
+        let planeNode = SCNNode(geometry: plane)
+        planeNode.position = SCNVector3(0, 0, imageAnchor.referenceImage.physicalSize.height * 2 / 3)
+        planeNode.eulerAngles.x = -.pi / 2
+        return planeNode
     }
 }

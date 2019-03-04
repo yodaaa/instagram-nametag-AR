@@ -9,6 +9,7 @@
 import UIKit
 import SceneKit
 import ARKit
+import SafariServices
 
 class ViewController: UIViewController {
     
@@ -85,8 +86,16 @@ extension ViewController: ARSCNViewDelegate {
             labelPlaneNode.name = "labeltest"
             node.addChildNode(imagePlaneNode)
             node.addChildNode(labelPlaneNode)
+            
+            let imageNode = makeImageNode(imageAnchor: imageAnchor)
+            node.addChildNode(imageNode)
+            let imageNode2 = makeImageNode2(imageAnchor: imageAnchor)
+            node.addChildNode(imageNode2)
+            let imageNode3 = makeImageNode3(imageAnchor: imageAnchor)
+            node.addChildNode(imageNode3)
+            
             var textNode = SCNNode()
-            textNode = makeLabelNode(text: "aaaa")
+            textNode = makeLabelNode(text: "Daliちゃん")
             labelPlaneNode.addChildNode(textNode)
             return node
         default:
@@ -98,7 +107,7 @@ extension ViewController: ARSCNViewDelegate {
         let depth: CGFloat = 0.001
         let font = UIFont(name: "HiraKakuProN-W3", size: 0.5);
         
-        let textGeometory = SCNText(string: text, extrusionDepth: depth)
+        let textGeometory = SCNText(string: text, extrusionDepth: depth) //文字列とその厚み
         textGeometory.flatness = 0
         textGeometory.font = font
         let textNode = SCNNode(geometry: textGeometory)
@@ -128,6 +137,40 @@ extension ViewController: ARSCNViewDelegate {
         return planeNode
     }
     
+    //画像表示するぞ
+    private func makeImageNode(imageAnchor: ARImageAnchor) -> SCNNode {
+        let plane = SCNPlane(width: imageAnchor.referenceImage.physicalSize.width, height: imageAnchor.referenceImage.physicalSize.height * 4/3)
+        let myImage = UIImage(named: "000028.jpg")
+        plane.firstMaterial?.diffuse.contents = myImage
+        plane.firstMaterial?.transparency = 0.9
+        let planeNode = SCNNode(geometry: plane)
+        planeNode.position = SCNVector3(0, 0, imageAnchor.referenceImage.physicalSize.height * 5/3)
+        planeNode.eulerAngles.x = -.pi / 2
+        return planeNode
+    }
+    //右
+    private func makeImageNode2(imageAnchor: ARImageAnchor) -> SCNNode {
+        let plane = SCNPlane(width: imageAnchor.referenceImage.physicalSize.width, height: imageAnchor.referenceImage.physicalSize.height * 4/3)
+        let myImage = UIImage(named: "000034.jpg")
+        plane.firstMaterial?.diffuse.contents = myImage
+        plane.firstMaterial?.transparency = 0.9
+        let planeNode = SCNNode(geometry: plane)
+        planeNode.position = SCNVector3(imageAnchor.referenceImage.physicalSize.height * 2, 0, imageAnchor.referenceImage.physicalSize.height * 5/3)
+        planeNode.eulerAngles.x = -.pi / 2
+        return planeNode
+    }
+    //左
+    private func makeImageNode3(imageAnchor: ARImageAnchor) -> SCNNode {
+        let plane = SCNPlane(width: imageAnchor.referenceImage.physicalSize.width, height: imageAnchor.referenceImage.physicalSize.height * 4/3)
+        let myImage = UIImage(named: "000037.jpg")
+        plane.firstMaterial?.diffuse.contents = myImage
+        plane.firstMaterial?.transparency = 0.9
+        let planeNode = SCNNode(geometry: plane)
+        planeNode.position = SCNVector3(-imageAnchor.referenceImage.physicalSize.height * 2, 0, imageAnchor.referenceImage.physicalSize.height * 5/3)
+        planeNode.eulerAngles.x = -.pi / 2
+        return planeNode
+    }
+    
     // Nodeのタッチ判別と処理
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         guard let location = touches.first?.location(in: sceneView),
@@ -139,6 +182,8 @@ extension ViewController: ARSCNViewDelegate {
         switch node.name {
         case "labeltest":
             Logger.debugLog("labeltest touched!")
+            let safariVC = SFSafariViewController(url: URL(string: "https://www.facebook.com/1ewell")!)
+            self.present(safariVC, animated: true, completion: nil)
         case "nametest":
             Logger.debugLog("nametest touched!")
         default:

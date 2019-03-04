@@ -37,6 +37,7 @@ class ViewController: UIViewController {
         // Create a session configuration
         let configuration = ARImageTrackingConfiguration()
         configuration.trackingImages = referenceImages!
+        configuration.maximumNumberOfTrackedImages = 1
         // Run the view's session
         sceneView.session.run(configuration)
     }
@@ -47,17 +48,6 @@ class ViewController: UIViewController {
         // Pause the view's session
         sceneView.session.pause()
     }
-    
-    // MARK: - ARSCNViewDelegate
-    
-    /*
-     // Override to create and configure nodes for anchors added to the view's session.
-     func renderer(_ renderer: SCNSceneRenderer, nodeFor anchor: ARAnchor) -> SCNNode? {
-     let node = SCNNode()
-     
-     return node
-     }
-     */
     
     func session(_ session: ARSession, didFailWithError error: Error) {
         // Present an error message to the user
@@ -84,9 +74,15 @@ extension ViewController: ARSCNViewDelegate {
         //画像(マーカー)ごとに処理を分岐
         switch imageAnchor.referenceImage.name {
         case "Dali":
+            DispatchQueue.main.async {
+                
+            }
+            
             let node = SCNNode()
             let imagePlaneNode = makeImagePlaneNode(imageAnchor: imageAnchor)
             let labelPlaneNode = makeLabelPlaneNode(imageAnchor: imageAnchor)
+            imagePlaneNode.name = "nametest"
+            labelPlaneNode.name = "labeltest"
             node.addChildNode(imagePlaneNode)
             node.addChildNode(labelPlaneNode)
             var textNode = SCNNode()
@@ -130,5 +126,23 @@ extension ViewController: ARSCNViewDelegate {
         planeNode.position = SCNVector3(0, 0, imageAnchor.referenceImage.physicalSize.height * 2 / 3)
         planeNode.eulerAngles.x = -.pi / 2
         return planeNode
+    }
+    
+    // Nodeのタッチ判別と処理
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        guard let location = touches.first?.location(in: sceneView),
+            let result = sceneView.hitTest(location, options: nil).first else {
+                return
+        }
+        let node = result.node
+    
+        switch node.name {
+        case "labeltest":
+            Logger.debugLog("labeltest touched!")
+        case "nametest":
+            Logger.debugLog("nametest touched!")
+        default:
+            break
+        }
     }
 }

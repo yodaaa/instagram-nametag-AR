@@ -6,6 +6,9 @@
   "resources" : [
     {
       "filename" : "Dali.arreferenceimage"
+    },
+    {
+      "filename" : "my_photo_is_bad.arreferenceimage"
     }
   ]
 }

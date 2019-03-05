@@ -75,6 +75,20 @@ extension ViewController: ARSCNViewDelegate {
         //画像(マーカー)ごとに処理を分岐
         switch imageAnchor.referenceImage.name {
         case "Dali":
+            let node = SCNNode()
+            let imagePlaneNode = makeImagePlaneNode(imageAnchor: imageAnchor)
+            let labelPlaneNode = makeLabelPlaneNode(imageAnchor: imageAnchor)
+            imagePlaneNode.name = "nametest"
+            labelPlaneNode.name = "labeltest"
+            node.addChildNode(imagePlaneNode)
+            node.addChildNode(labelPlaneNode)
+
+            var textNode = SCNNode()
+            textNode = makeLabelNode(text: "Daliちゃん")
+            labelPlaneNode.addChildNode(textNode)
+            return node
+            
+        case "my_photo_is_bad":
             DispatchQueue.main.async {
                 
             }
@@ -85,18 +99,86 @@ extension ViewController: ARSCNViewDelegate {
             imagePlaneNode.name = "nametest"
             labelPlaneNode.name = "labeltest"
             node.addChildNode(imagePlaneNode)
-            node.addChildNode(labelPlaneNode)
             
-            let imageNode = makeImageNode(imageAnchor: imageAnchor)
-            node.addChildNode(imageNode)
-            let imageNode2 = makeImageNode2(imageAnchor: imageAnchor)
-            node.addChildNode(imageNode2)
-            let imageNode3 = makeImageNode3(imageAnchor: imageAnchor)
-            node.addChildNode(imageNode3)
+            //下左
+            let myImage8 = UIImage(named: "000037.jpg")
+            if let validImage = myImage8 { //nilチェック
+                let imageNode = makeImageNode(imageAnchor: imageAnchor, myImage: validImage)
+                imageNode.position = SCNVector3(-imageAnchor.referenceImage.physicalSize.height, 0, imageAnchor.referenceImage.physicalSize.height * 3/3)
+                node.addChildNode(imageNode)
+            } else {
+                fatalError()
+            }
             
-            var textNode = SCNNode()
-            textNode = makeLabelNode(text: "Daliちゃん")
-            labelPlaneNode.addChildNode(textNode)
+            //下真ん中
+            let myImage1 = UIImage(named: "000028.jpg")
+            if let validImage = myImage1 { //nilチェック
+                let imageNode = makeImageNode(imageAnchor: imageAnchor, myImage: validImage)
+                imageNode.position = SCNVector3(0, 0, imageAnchor.referenceImage.physicalSize.height * 3/3)
+                node.addChildNode(imageNode)
+            } else {
+                fatalError()
+            }
+            
+            //下右
+            let myImage7 = UIImage(named: "000034.jpg")
+            if let validImage = myImage7 { //nilチェック
+                let imageNode = makeImageNode(imageAnchor: imageAnchor, myImage: validImage)
+                imageNode.position = SCNVector3(imageAnchor.referenceImage.physicalSize.height, 0, imageAnchor.referenceImage.physicalSize.height * 3/3)
+                node.addChildNode(imageNode)
+            } else {
+                fatalError()
+            }
+            
+            // 中央左
+            let myImage2 = UIImage(named: "000050.jpg")
+            if let validImage = myImage2 { //nilチェック
+                let imageNode = makeImageNode(imageAnchor: imageAnchor, myImage: validImage)
+                imageNode.position = SCNVector3(-imageAnchor.referenceImage.physicalSize.height, 0, 0)
+                node.addChildNode(imageNode)
+            } else {
+                fatalError()
+            }
+            
+            //中央右
+            let myImage3 = UIImage(named: "000014.jpg")
+            if let validImage = myImage3 { //nilチェック
+                let imageNode = makeImageNode(imageAnchor: imageAnchor, myImage: validImage)
+                imageNode.position = SCNVector3(imageAnchor.referenceImage.physicalSize.height, 0, 0)
+                node.addChildNode(imageNode)
+            } else {
+                fatalError()
+            }
+            
+            //上右
+            let myImage4 = UIImage(named: "000020.jpg")
+            if let validImage = myImage4 { //nilチェック
+                let imageNode = makeImageNode(imageAnchor: imageAnchor, myImage: validImage)
+                imageNode.position = SCNVector3(imageAnchor.referenceImage.physicalSize.height, 0, -imageAnchor.referenceImage.physicalSize.height * 3/3)
+                node.addChildNode(imageNode)
+            } else {
+                fatalError()
+            }
+            
+            //上真ん中
+            let myImage5 = UIImage(named: "000019.jpg")
+            if let validImage = myImage5 { //nilチェック
+                let imageNode = makeImageNode(imageAnchor: imageAnchor, myImage: validImage)
+                imageNode.position = SCNVector3(0, 0, -imageAnchor.referenceImage.physicalSize.height * 3/3)
+                node.addChildNode(imageNode)
+            } else {
+                fatalError()
+            }
+            
+            //上左
+            let myImage6 = UIImage(named: "000017.jpg")
+            if let validImage = myImage6 { //nilチェック
+                let imageNode = makeImageNode(imageAnchor: imageAnchor, myImage: validImage)
+                imageNode.position = SCNVector3(-imageAnchor.referenceImage.physicalSize.height, 0, -imageAnchor.referenceImage.physicalSize.height * 3/3)
+                node.addChildNode(imageNode)
+            } else {
+                fatalError()
+            }
             return node
         default:
             return nil
@@ -138,35 +220,12 @@ extension ViewController: ARSCNViewDelegate {
     }
     
     //画像表示するぞ
-    private func makeImageNode(imageAnchor: ARImageAnchor) -> SCNNode {
-        let plane = SCNPlane(width: imageAnchor.referenceImage.physicalSize.width, height: imageAnchor.referenceImage.physicalSize.height * 4/3)
-        let myImage = UIImage(named: "000028.jpg")
+    private func makeImageNode(imageAnchor: ARImageAnchor, myImage: UIImage) -> SCNNode {
+        let plane = SCNPlane(width: imageAnchor.referenceImage.physicalSize.width, height: imageAnchor.referenceImage.physicalSize.height * 2/3)
         plane.firstMaterial?.diffuse.contents = myImage
         plane.firstMaterial?.transparency = 0.9
         let planeNode = SCNNode(geometry: plane)
-        planeNode.position = SCNVector3(0, 0, imageAnchor.referenceImage.physicalSize.height * 5/3)
-        planeNode.eulerAngles.x = -.pi / 2
-        return planeNode
-    }
-    //右
-    private func makeImageNode2(imageAnchor: ARImageAnchor) -> SCNNode {
-        let plane = SCNPlane(width: imageAnchor.referenceImage.physicalSize.width, height: imageAnchor.referenceImage.physicalSize.height * 4/3)
-        let myImage = UIImage(named: "000034.jpg")
-        plane.firstMaterial?.diffuse.contents = myImage
-        plane.firstMaterial?.transparency = 0.9
-        let planeNode = SCNNode(geometry: plane)
-        planeNode.position = SCNVector3(imageAnchor.referenceImage.physicalSize.height * 2, 0, imageAnchor.referenceImage.physicalSize.height * 5/3)
-        planeNode.eulerAngles.x = -.pi / 2
-        return planeNode
-    }
-    //左
-    private func makeImageNode3(imageAnchor: ARImageAnchor) -> SCNNode {
-        let plane = SCNPlane(width: imageAnchor.referenceImage.physicalSize.width, height: imageAnchor.referenceImage.physicalSize.height * 4/3)
-        let myImage = UIImage(named: "000037.jpg")
-        plane.firstMaterial?.diffuse.contents = myImage
-        plane.firstMaterial?.transparency = 0.9
-        let planeNode = SCNNode(geometry: plane)
-        planeNode.position = SCNVector3(-imageAnchor.referenceImage.physicalSize.height * 2, 0, imageAnchor.referenceImage.physicalSize.height * 5/3)
+        //planeNode.position = SCNVector3(0, 0, imageAnchor.referenceImage.physicalSize.height * 3/3)
         planeNode.eulerAngles.x = -.pi / 2
         return planeNode
     }
@@ -182,9 +241,9 @@ extension ViewController: ARSCNViewDelegate {
         switch node.name {
         case "labeltest":
             Logger.debugLog("labeltest touched!")
-            let safariVC = SFSafariViewController(url: URL(string: "https://www.facebook.com/1ewell")!)
-            self.present(safariVC, animated: true, completion: nil)
         case "nametest":
+            let safariVC = SFSafariViewController(url: URL(string: "https://www.instagram.com/__my_photo_is_bad__/?hl=ja")!)
+            self.present(safariVC, animated: true, completion: nil)
             Logger.debugLog("nametest touched!")
         default:
             break

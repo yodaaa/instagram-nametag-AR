@@ -17,6 +17,11 @@
 		D574F37E222D2EA600C0172C /* 000028.jpg in Resources */ = {isa = PBXBuildFile; fileRef = D574F37D222D2EA600C0172C /* 000028.jpg */; };
 		D574F380222D30A000C0172C /* 000034.jpg in Resources */ = {isa = PBXBuildFile; fileRef = D574F37F222D30A000C0172C /* 000034.jpg */; };
 		D574F382222D316500C0172C /* 000037.jpg in Resources */ = {isa = PBXBuildFile; fileRef = D574F381222D316500C0172C /* 000037.jpg */; };
+		D574F388222E374200C0172C /* 000014.jpg in Resources */ = {isa = PBXBuildFile; fileRef = D574F383222E374100C0172C /* 000014.jpg */; };
+		D574F389222E374200C0172C /* 000020.jpg in Resources */ = {isa = PBXBuildFile; fileRef = D574F384222E374100C0172C /* 000020.jpg */; };
+		D574F38A222E374200C0172C /* 000050.jpg in Resources */ = {isa = PBXBuildFile; fileRef = D574F385222E374200C0172C /* 000050.jpg */; };
+		D574F38B222E374200C0172C /* 000019.jpg in Resources */ = {isa = PBXBuildFile; fileRef = D574F386222E374200C0172C /* 000019.jpg */; };
+		D574F38C222E374200C0172C /* 000017.jpg in Resources */ = {isa = PBXBuildFile; fileRef = D574F387222E374200C0172C /* 000017.jpg */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,6 +37,11 @@
 		D574F37D222D2EA600C0172C /* 000028.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 000028.jpg; sourceTree = "<group>"; };
 		D574F37F222D30A000C0172C /* 000034.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 000034.jpg; sourceTree = "<group>"; };
 		D574F381222D316500C0172C /* 000037.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 000037.jpg; sourceTree = "<group>"; };
+		D574F383222E374100C0172C /* 000014.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 000014.jpg; sourceTree = "<group>"; };
+		D574F384222E374100C0172C /* 000020.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 000020.jpg; sourceTree = "<group>"; };
+		D574F385222E374200C0172C /* 000050.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 000050.jpg; sourceTree = "<group>"; };
+		D574F386222E374200C0172C /* 000019.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 000019.jpg; sourceTree = "<group>"; };
+		D574F387222E374200C0172C /* 000017.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 000017.jpg; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -88,6 +98,11 @@
 		D574F37C222D2E8500C0172C /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				D574F383222E374100C0172C /* 000014.jpg */,
+				D574F387222E374200C0172C /* 000017.jpg */,
+				D574F386222E374200C0172C /* 000019.jpg */,
+				D574F384222E374100C0172C /* 000020.jpg */,
+				D574F385222E374200C0172C /* 000050.jpg */,
 				D574F381222D316500C0172C /* 000037.jpg */,
 				D574F37F222D30A000C0172C /* 000034.jpg */,
 				D574F37D222D2EA600C0172C /* 000028.jpg */,
@@ -154,11 +169,16 @@
 			buildActionMask = 2147483647;
 			files = (
 				D574F380222D30A000C0172C /* 000034.jpg in Resources */,
+				D574F38C222E374200C0172C /* 000017.jpg in Resources */,
 				D574F368222CC3AF00C0172C /* art.scnassets in Resources */,
+				D574F38B222E374200C0172C /* 000019.jpg in Resources */,
 				D574F372222CC3B200C0172C /* LaunchScreen.storyboard in Resources */,
+				D574F389222E374200C0172C /* 000020.jpg in Resources */,
 				D574F36F222CC3B200C0172C /* Assets.xcassets in Resources */,
 				D574F382222D316500C0172C /* 000037.jpg in Resources */,
 				D574F37E222D2EA600C0172C /* 000028.jpg in Resources */,
+				D574F388222E374200C0172C /* 000014.jpg in Resources */,
+				D574F38A222E374200C0172C /* 000050.jpg in Resources */,
 				D574F36D222CC3AF00C0172C /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -321,6 +341,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = SKGH3PPX4X;
 				INFOPLIST_FILE = sanolabAR/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -339,6 +360,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = SKGH3PPX4X;
 				INFOPLIST_FILE = sanolabAR/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
